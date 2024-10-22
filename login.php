@@ -43,6 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             $_SESSION['poderes'] = $row['poderes'];
 
+            $_SESSION['usuario'] = $row['usuario'];
+
             // Verifica o valor da coluna 'poderes'
             if ($row['poderes'] == 0) {
                 // Usuário comum, redireciona para index.php
@@ -97,7 +99,7 @@ $conn->close();
         <div>
             <h3 style="color: #00510f; text-align: center; margin: 20px 0; font-size: 40px;">Login</h3>
             <?php if (isset($erro)): ?>
-                <p style="color: red; text-align: center;"><?php echo $erro; ?></p>
+                <p class="falha"><?php echo $erro; ?></p>
             <?php endif; ?>
             <form class="forms" method="POST" action="login.php">
                 <label for="usuario">Usuário:</label>

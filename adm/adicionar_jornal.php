@@ -97,7 +97,7 @@ try {
         <h2 class="tit">Upload de Jornal (PDF)</h2>
 
         <?php if (!empty($mensagem)): ?>
-            <p style="color: red;"><?php echo $mensagem; ?></p>
+            <p class="falha"><?php echo $mensagem; ?></p>
         <?php endif; ?>
 
         <form method="POST" action="" enctype="multipart/form-data" class="forms">

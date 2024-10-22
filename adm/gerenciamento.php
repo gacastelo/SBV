@@ -81,7 +81,6 @@ try {
                             <td><?php echo htmlspecialchars($usuario['nome']); ?></td>
                             <td>
                                 <!-- Aqui podem ser adicionadas ações como editar ou excluir o usuário -->
-                                <a href="editar_usuario.php?id=<?php echo $usuario['id']; ?>">Editar</a> |
                                 <a href="excluir_usuario.php?id=<?php echo $usuario['id']; ?>" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</a>
                             </td>
                         </tr>

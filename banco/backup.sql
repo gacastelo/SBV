@@ -19,6 +19,22 @@
 CREATE DATABASE IF NOT EXISTS `db_jornal` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `db_jornal`;
 
+-- Copiando estrutura para tabela db_jornal.comentarios
+CREATE TABLE IF NOT EXISTS `comentarios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_noticia` int NOT NULL,
+  `id_usuario` int NOT NULL,
+  `comentario` text COLLATE utf8mb4_general_ci NOT NULL,
+  `data_comentario` timestamp NOT NULL DEFAULT (now()),
+  PRIMARY KEY (`id`),
+  KEY `fk_comentarios_tb_jornal` (`id_noticia`),
+  KEY `fk_comentarios_usuarios` (`id_usuario`),
+  CONSTRAINT `fk_comentarios_tb_jornal` FOREIGN KEY (`id_noticia`) REFERENCES `tb_jornal` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_comentarios_usuarios` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Copiando dados para a tabela db_jornal.comentarios: ~0 rows (aproximadamente)
+
 -- Copiando estrutura para tabela db_jornal.tb_eventos
 CREATE TABLE IF NOT EXISTS `tb_eventos` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -27,13 +43,11 @@ CREATE TABLE IF NOT EXISTS `tb_eventos` (
   `descricao` text COLLATE utf8mb4_general_ci,
   `data_criacao` timestamp NULL DEFAULT (now()),
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Copiando dados para a tabela db_jornal.tb_eventos: 1 rows
-/*!40000 ALTER TABLE `tb_eventos` DISABLE KEYS */;
+-- Copiando dados para a tabela db_jornal.tb_eventos: ~1 rows (aproximadamente)
 INSERT INTO `tb_eventos` (`id`, `evento`, `data_evento`, `descricao`, `data_criacao`) VALUES
 	(1, 'Semana da Tecnologia', '2024-09-22', NULL, '2024-10-01 00:08:30');
-/*!40000 ALTER TABLE `tb_eventos` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela db_jornal.tb_jornal
 CREATE TABLE IF NOT EXISTS `tb_jornal` (
@@ -46,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `tb_jornal` (
   `midia` text COLLATE utf8mb4_general_ci,
   `video_duration` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Copiando dados para a tabela db_jornal.tb_jornal: ~17 rows (aproximadamente)
 INSERT INTO `tb_jornal` (`id`, `titulo`, `desc`, `img`, `data_cad`, `conteudo`, `midia`, `video_duration`) VALUES
@@ -60,13 +74,24 @@ INSERT INTO `tb_jornal` (`id`, `titulo`, `desc`, `img`, `data_cad`, `conteudo`, 
 	(38, 'Nova política de sustentabilidade é lançada', 'Iniciativa busca reduzir a pegada de carbono.', '', '2024-09-23', 'Uma nova política de sustentabilidade foi lançada por uma grande empresa, com o objetivo de reduzir sua pegada de carbono e promover práticas ecológicas. Essa iniciativa é um passo importante para um futuro mais sustentável.', NULL, ''),
 	(39, 'Crescimento do e-commerce em tempos de pandemia', 'Setor se destaca e inovações surgem.', '', '2024-09-23', 'O e-commerce experimentou um crescimento significativo durante a pandemia, com muitas empresas se adaptando às novas demandas do mercado. Inovações tecnológicas também têm surgido para melhorar a experiência do consumidor.', NULL, ''),
 	(40, 'Mudanças nas regras de trânsito entram em vigor', 'Nova legislação visa aumentar a segurança.', '', '2024-09-23', 'As novas regras de trânsito, que visam aumentar a segurança nas ruas, entram em vigor esta semana. As mudanças incluem penalidades mais severas para infrações graves e novas sinalizações nas estradas.', NULL, ''),
-	(87, 'Semana da Tecnologia é um sucesso', 'A semana da tecnologia foi incrível!!!', './uploads/66ff37f8df5b3.jpg', '2024-10-03', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc in libero dolor. Aenean luctus sapien non vestibulum egestas. Aenean efficitur ut lectus a feugiat. Integer vitae erat diam. Donec auctor, quam eu venenatis ornare, tellus erat faucibus leo, et laoreet mi felis at nisl. Integer vel fringilla libero. Curabitur id iaculis risus. Maecenas dignissim quam purus, vitae faucibus eros volutpat id. Nunc pharetra erat varius est hendrerit rhoncus id vel quam. Praesent ut fringilla dolor. Nullam posuere neque eu nisi fermentum, sed mollis purus faucibus. Ut finibus mi mauris. Aliquam sagittis placerat ante tempus rutrum. Nam sagittis vulputate lacus at elementum. In hac habitasse platea dictumst. Aenean iaculis congue nisi, at auctor justo elementum sit amet.\r\n\r\nMauris fringilla, nunc nec elementum mattis, felis ipsum hendrerit lectus, in varius dui felis vel neque. Praesent vulputate augue id consectetur vulputate. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque egestas varius molestie. Duis mauris justo, dignissim ac vulputate condimentum, ullamcorper a nisi. Curabitur lorem velit, malesuada vel fermentum vel, dapibus in velit. Cras sapien elit, finibus nec accumsan et, sodales et neque. Cras accumsan porta velit quis finibus. Curabitur congue dapibus convallis. In egestas tempor lorem convallis consequat. Cras erat orci, sagittis ut vulputate sed, pulvinar ac tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque at congue elit.', NULL, NULL),
-	(90, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min'),
-	(91, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min'),
-	(100, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min'),
-	(101, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min'),
-	(102, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min'),
-	(103, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min');
+	(87, 'Semana da Tecnologia é um sucesso', 'A semana da tecnologia foi incrível!!!', './uploads/img/66ff37f8df5b3.jpg', '2024-10-03', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc in libero dolor. Aenean luctus sapien non vestibulum egestas. Aenean efficitur ut lectus a feugiat. Integer vitae erat diam. Donec auctor, quam eu venenatis ornare, tellus erat faucibus leo, et laoreet mi felis at nisl. Integer vel fringilla libero. Curabitur id iaculis risus. Maecenas dignissim quam purus, vitae faucibus eros volutpat id. Nunc pharetra erat varius est hendrerit rhoncus id vel quam. Praesent ut fringilla dolor. Nullam posuere neque eu nisi fermentum, sed mollis purus faucibus. Ut finibus mi mauris. Aliquam sagittis placerat ante tempus rutrum. Nam sagittis vulputate lacus at elementum. In hac habitasse platea dictumst. Aenean iaculis congue nisi, at auctor justo elementum sit amet.\r\n\r\nMauris fringilla, nunc nec elementum mattis, felis ipsum hendrerit lectus, in varius dui felis vel neque. Praesent vulputate augue id consectetur vulputate. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque egestas varius molestie. Duis mauris justo, dignissim ac vulputate condimentum, ullamcorper a nisi. Curabitur lorem velit, malesuada vel fermentum vel, dapibus in velit. Cras sapien elit, finibus nec accumsan et, sodales et neque. Cras accumsan porta velit quis finibus. Curabitur congue dapibus convallis. In egestas tempor lorem convallis consequat. Cras erat orci, sagittis ut vulputate sed, pulvinar ac tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque at congue elit.', NULL, NULL),
+	(90, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/img/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min'),
+	(91, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/img/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min'),
+	(100, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/img/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min'),
+	(101, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/img/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min'),
+	(102, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/img/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min'),
+	(103, 'Entrevista com X', 'Entrevista com candidato X foi um sucesso', './uploads/img/66ff3b1bab8bd.jpg', '2024-10-03', 'A moda para o inverno de 2024 promete ser diversificada, com diversas cores, estampas e modelos. Algumas das tendências incluem: \r\nCores\r\nO vermelho cereja, o verde matchá, os tons terrosos como o marrom, terracota e caramelo, os tons escuros como o preto e azul, e os tons rosas como o rosé, pink e cereja. \r\nEstampas\r\nO xadrez grade. \r\nCouro\r\nO couro estará presente em diversas modelagens, como vestidos, calças, saias e jaquetas. \r\nCasacos de pele fake\r\nUma tendência que veio para ficar, os casacos de pele fake marcaram presença nas passarelas em tons de marrom, bege e preto.\r\nSuéteres\r\nUm clássico que nunca sai de moda, os suéteres dão uma vibe eclectic grandpa ao look. \r\nMacacão jeans\r\nUma opção de tendência de inverno para 2024 perfeita não só para os adolescentes, mas para os pequenos também.', 'https://www.youtube.com/embed/ZUBe_X6KU_w?si=EIPmA7X0DwWGx2r2', '15 min');
+
+-- Copiando estrutura para tabela db_jornal.tb_jornal_pdf
+CREATE TABLE IF NOT EXISTS `tb_jornal_pdf` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `nome_arquivo` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `data_publicacao` date NOT NULL DEFAULT (curdate()),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Copiando dados para a tabela db_jornal.tb_jornal_pdf: ~0 rows (aproximadamente)
 
 -- Copiando estrutura para tabela db_jornal.tb_sugestoes
 CREATE TABLE IF NOT EXISTS `tb_sugestoes` (
@@ -75,26 +100,30 @@ CREATE TABLE IF NOT EXISTS `tb_sugestoes` (
   `sugestao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `data_envio` datetime NOT NULL DEFAULT (now()),
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Copiando dados para a tabela db_jornal.tb_sugestoes: 1 rows
-/*!40000 ALTER TABLE `tb_sugestoes` DISABLE KEYS */;
+-- Copiando dados para a tabela db_jornal.tb_sugestoes: ~1 rows (aproximadamente)
 INSERT INTO `tb_sugestoes` (`id`, `nome`, `sugestao`, `data_envio`) VALUES
 	(6, 'Joana D\'arc', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae elit purus. Nam laoreet, lorem at dignissim aliquam, felis orci mollis sapien, vitae pulvinar ligula diam a risus. Praesent suscipit ante et elit tempus condimentum. Aenean ac nunc id tellus interdum viverra non eget augue. Sed efficitur, felis nec aliquam euismod, urna libero mollis ipsum, ac lobortis velit nibh a mi. Nullam eu rhoncus nibh. Maecenas a tincidunt justo. Morbi massa orci, varius nec quam eget, consequat vehicula dui. Phasellus nibh quam, finibus nec luctus eu, posuere sit amet massa. Mauris sed pulvinar velit. Integer ultricies eu urna nec posuere. Sed gravida justo et turpis placerat auctor. Maecenas ultrices elit eget nibh facilisis, ut luctus sem ornare. Etiam ipsum dui, dictum eu tellus non, egestas gravida lectus.\r\n\r\nEtiam augue nisl, dictum a iaculis sit amet, rutrum accumsan diam. Sed mauris lacus, varius vel volutpat a, tempor vel turpis. Ut et libero pellentesque turpis tempus bibendum non in eros. Phasellus rhoncus ut eros vel sollicitudin. Maecenas sit amet tempor sapien, eget scelerisque magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque dapibus rhoncus tellus id aliquet. Duis id dolor ultricies dolor vestibulum facilisis ac nec justo.', '2024-09-30 20:07:19');
-/*!40000 ALTER TABLE `tb_sugestoes` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela db_jornal.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `usuario` varchar(50) COLLATE utf8mb4_bin NOT NULL,
+  `usuario` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `nome` varchar(50) COLLATE utf8mb4_bin NOT NULL,
   `senha` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT 'Armazena a senha criptografada',
+  `poderes` tinyint(1) NOT NULL COMMENT '''1 para administrador, 0 para usuário comum''',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Copiando dados para a tabela db_jornal.usuarios: ~2 rows (aproximadamente)
-INSERT INTO `usuarios` (`id`, `usuario`, `senha`) VALUES
-	(2, 'admin', '$2y$10$g61reboGdpT/ZzDB4mxUJ.0B.32LlVg.dpf2eBKoq42.p.bZtEWsS'),
-	(3, 'Gabriel', '$2y$10$OMzsUQqBCgawB5Hfeks/6OaYpQ9jAIXSfY225.f8XmCppSOyfxamm');
+-- Copiando dados para a tabela db_jornal.usuarios: ~6 rows (aproximadamente)
+INSERT INTO `usuarios` (`id`, `usuario`, `nome`, `senha`, `poderes`) VALUES
+	(2, 'admin', 'admin', '$2y$10$g61reboGdpT/ZzDB4mxUJ.0B.32LlVg.dpf2eBKoq42.p.bZtEWsS', 1),
+	(4, 'test', 'aaa', '$2y$10$pzjO/sErXH0lIAVdshxBReC5Nmf65k7bLLyIXOUeA33SgY1lMH2bK', 0),
+	(6, 'Pinto Pintópolis 2: A vingança', 'Pinto Pintópolis 2: A vingança', '$2y$10$mj9JB1x8SCe7SOJ6SfjZmOSjZqhgS61w8v78e8EPbaywszMAIhpmq', 0),
+	(8, 'blackine4', 'blackine4', '$2y$10$Li5YvP3NDB02sC55GQILKOUuV9Vgap2GmujUmlQlgi9Wdo3gZ8vna', 0),
+	(11, 'blackine', 'blackine', '$2y$10$iFeNPFMapSXaMkihBBWjfuaDTM1hsLUs7ffullVNnEFIbXdwnQiim', 0),
+	(12, 'aa', 'aa', '$2y$10$DTUORImKqpZkkjph1MNq1.orLPjPCRLgbTcbMJ.LbBrFr4aXd9OZK', 1);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

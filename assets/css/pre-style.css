@@ -451,10 +451,94 @@ footer p {
   color: #17882c;
 }
 
+.sucesso{
+text-align: center;
+color: #17882c; ;
+}
+.falha{
+text-align: center;
+color: red;
+}
+
+.bloco {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+.info-usuario {
+  background-color: #fff;
+  border: 2px solid black;
+  padding: 20px;
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+}
+
+.mudar-nome, .mudar-senha {
+  border: 2px solid black;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.mudar-nome {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+.mudar-senha {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+
+input[type="submit"] {
+  margin-top: 10px;
+}
 .text-login:hover{
   color: #00420c;
 }
 
+.bloco {
+  flex: 1; /* Faz a section expandir */
+  display: flex;
+  justify-content: space-around; /* Ajusta os elementos internos */
+  padding: 20px;
+}
+.tit-info{
+  text-align: left;
+  color: #00510f;
+}
+.info-usuario{
+  border: 1px solid #ddd;
+  padding: 20px;
+  width: 45%;
+}
+.mudar-nome, .mudar-senha {
+  border: 1px solid #ddd;
+  padding: 20px;
+  width: 100%;
+}
+
+.input-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.toggle-password {
+  position: absolute;
+  cursor: pointer;
+  color: #007bff; /* Cor do ícone */
+}
+.mudar{
+  width: 40%;
+  margin: 20px;
+}
+.input-perfil {
+  width: 80%;
+  position: relative;
+}
 /* Responsividade */
 @media (max-width: 768px) {
   #video {
