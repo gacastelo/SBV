@@ -5,17 +5,9 @@ session_start();
 include '../backend/conexao.php';
 
 
-// Verifica se o usuário está logado
-if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true) {
-    // Se não estiver logado, redireciona para o login
+// Verifica se o usuário está logado e se tem poderes administrativos
+if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true || !isset($_SESSION['poderes']) || $_SESSION['poderes'] != 1) {
     header("Location: ../login.php");
-    exit();
-}
-
-// Verifica se o usuário tem poderes administrativos (poderes = 1)
-if (!isset($_SESSION['poderes']) || $_SESSION['poderes'] != 1) {
-    // Se não for administrador, redireciona para a página principal ou de acesso negado
-    header("Location: ../index.php");
     exit();
 }
 

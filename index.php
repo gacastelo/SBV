@@ -4,8 +4,6 @@ session_start();
 try {
     include "backend/conexao.php";
 
-
-
     // Selecionar as últimas 3 notícias sem vídeo
     $sql = "SELECT * FROM tb_jornal WHERE midia IS NULL ORDER BY id DESC LIMIT 3";
     $stmt = $conn->prepare($sql);
@@ -45,30 +43,21 @@ try {
             <img src="assets/img/logojornal.png" alt="" height="80px">
             <nav>
                 <ul>
-                    <li><a href="index.php" class="active">Início</a></li> <!-- Class Active indica com bold a página atual -->
+                    <li><a href="index.php" class="active">Início</a></li>
                     <li><a href="todas-noticias.php">Notícias</a></li>
                     <li><a href="videos.php">Vídeos</a></li>
                     <li><a href="sobre.php">Sobre</a></li>
                     <li><a href="sugestoes.php">Sugestões</a></li>
                     <li><a href="jornal.php">PDF's</a></li>
-                    <?php
-                    if (isset($_SESSION['adm_logado']))
-                        if ($_SESSION['adm_logado'] == true) {
-                            echo "<li><a href=adm/painel.php>Admin</a></li>";
-                        }
-                    ?>
-                    <?php
-                    if (isset($_SESSION['logado'])) {
-                        if ($_SESSION['logado'] == true) {
-                            echo "<li><a href='meu_perfil.php'>Meu Perfil</a></li>";
-                            echo "<li><a href='logout.php'>Logout</a></li>";
-                        } else {
-                            echo "<li><a href='login.php'>Faça seu Login</a></li>";
-                        }
-                    } else {
-                        echo "<li><a href='login.php'>Faça seu Login</a></li>";
-                    }
-                    ?>
+                    <?php if (isset($_SESSION['adm_logado']) && $_SESSION['adm_logado'] == true): ?>
+                        <li><a href="adm/painel.php">Admin</a></li>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['logado']) && $_SESSION['logado'] == true): ?>
+                        <li><a href='meu_perfil.php'>Meu Perfil</a></li>
+                        <li><a href='logout.php'>Logout</a></li>
+                    <?php else: ?>
+                        <li><a href='login.php'>Faça seu Login</a></li>
+                    <?php endif; ?>
                 </ul>
             </nav>
         </div>
@@ -78,7 +67,7 @@ try {
         <h2>Últimas Notícias</h2>
         <?php foreach ($menu as $item): ?>
             <div class="noticia">
-                <a href="noticias.php?id=<?php echo $item['id']; ?>" class="">
+                <a href="noticias.php?id=<?php echo $item['id']; ?>">
                     <h2><?php echo htmlspecialchars($item['titulo']); ?></h2>
                 </a>
                 <p><?php echo htmlspecialchars($item['desc']); ?></p>
@@ -90,7 +79,7 @@ try {
                 <div class="news-video">
                     <img src="<?php echo $noticiaComVideo['img'] ?: 'assets/img/placeholder.png'; ?>"
                         alt="Imagem do vídeo" class="thumbnail"
-                        onclick="abrirModal('<?php echo $noticiaComVideo['midia']; ?>', '<?php echo htmlspecialchars($noticiaComVideo['titulo']); ?>', `<?php echo htmlspecialchars($noticiaComVideo['conteudo']); ?>`)"
+                        onclick="abrirModal('<?php echo $noticiaComVideo['midia']; ?>', '<?php echo htmlspecialchars($noticiaComVideo['titulo']); ?>', '<?php echo htmlspecialchars($noticiaComVideo['conteudo']); ?>')"
                         onerror="this.src='assets/img/jorge.png';">
                     <span class="video-duration"><?php echo htmlspecialchars($noticiaComVideo['video_duration']); ?></span>
                 </div>
@@ -110,7 +99,7 @@ try {
                 <div class="closex" id="closeModal">x</div>
                 <h2 class="news-video-title" id="modalTitulo"></h2>
                 <div class="video-container"><iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe></div>
-                <p id="modalConteudo"></p> <!-- Parágrafo para o conteúdo -->
+                <p id="modalConteudo"></p>
                 <p class="close" id="closeModal">Sair</p>
             </div>
         </div>
@@ -123,7 +112,10 @@ try {
                 <?php foreach ($eventos as $evento): ?>
                     <li>
                         <strong><?php echo htmlspecialchars($evento['evento']); ?></strong><br>
-                        <?php echo date('d/m/Y', strtotime($evento['data_evento'])); ?><br>
+                        <?php echo date('d/m/Y', strtotime($evento['data_evento'])); ?>
+                        <?php if (!empty($evento['horario'])): ?>
+                            , <?php echo date('H:i', strtotime($evento['horario'])); ?>
+                        <?php endif; ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -141,4 +133,4 @@ try {
     <script src="assets/js/scroll.js"></script>
 </body>
 
-</html>
+</html> 

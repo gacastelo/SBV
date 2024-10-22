@@ -5,15 +5,28 @@ session_start();
 try {
     include "backend/conexao.php";
 
-    // Selecionar todas as notícias onde "midia" é NULL e ordenar por ID em ordem decrescente
-    $sql = "SELECT * FROM tb_jornal WHERE midia IS NULL ORDER BY id DESC";
+    // Definir o número de notícias por página
+    $noticiasPorPagina = 10;
+
+    // Pega a página atual da URL, se não existir, define como 1
+    $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    $offset = ($paginaAtual - 1) * $noticiasPorPagina;
+
+    // Selecionar notícias com limite e offset
+    $sql = "SELECT * FROM tb_jornal WHERE midia IS NULL ORDER BY id DESC LIMIT :limit OFFSET :offset";
 
     $stmt = $conn->prepare($sql);
-
+    $stmt->bindValue(':limit', $noticiasPorPagina, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
 
     // Pegar todas as notícias do banco de dados
     $menu = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Verifica o total de notícias para calcular o número de páginas
+    $sqlCount = "SELECT COUNT(*) FROM tb_jornal WHERE midia IS NULL";
+    $totalNoticias = $conn->query($sqlCount)->fetchColumn();
+    $totalPaginas = ceil($totalNoticias / $noticiasPorPagina);
 } catch (PDOException $err) {
     echo "Erro: " . $err->getMessage();
 }
@@ -89,6 +102,18 @@ try {
             echo "<p>Nenhuma notícia disponível no momento.</p>";
         }
         ?>
+
+        <!-- Navegação de páginas -->
+        <div class="navegacao">
+            <?php if ($paginaAtual > 1): ?>
+                <a href="?pagina=<?php echo $paginaAtual - 1; ?>">Anterior</a>
+            <?php endif; ?>
+
+            <?php if ($paginaAtual < $totalPaginas): ?>
+                <a href="?pagina=<?php echo $paginaAtual + 1; ?>">Próxima</a>
+            <?php endif; ?>
+        </div>
+
     </div>
 
     <footer>

@@ -4,12 +4,26 @@ session_start();
 try {
     include "backend/conexao.php";
 
-    // Selecionar todas as notícias onde 'midia' não é NULL (notícias com vídeos)
-    $sql = "SELECT * FROM tb_jornal WHERE midia IS NOT NULL ORDER BY id DESC";
+    // Definir o número de vídeos por página
+    $videosPorPagina = 10;
+
+    // Pega a página atual da URL, se não existir, define como 1
+    $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    $offset = ($paginaAtual - 1) * $videosPorPagina;
+
+    // Selecionar todas as notícias onde 'midia' não é NULL (notícias com vídeos) com limite e offset
+    $sql = "SELECT * FROM tb_jornal WHERE midia IS NOT NULL ORDER BY id DESC LIMIT :limit OFFSET :offset";
     $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':limit', $videosPorPagina, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
 
     $noticiasComVideos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Verifica o total de vídeos para calcular o número de páginas
+    $sqlCount = "SELECT COUNT(*) FROM tb_jornal WHERE midia IS NOT NULL";
+    $totalVideos = $conn->query($sqlCount)->fetchColumn();
+    $totalPaginas = ceil($totalVideos / $videosPorPagina);
 } catch (PDOException $err) {
     echo "Erro: " . $err->getMessage();
 }
@@ -82,6 +96,17 @@ try {
         <?php else: ?>
             <p>Nenhuma notícia com vídeo disponível no momento.</p>
         <?php endif; ?>
+
+        <!-- Navegação de páginas -->
+        <div class="navegacao">
+            <?php if ($paginaAtual > 1): ?>
+                <a href="?pagina=<?php echo $paginaAtual - 1; ?>">Anterior</a>
+            <?php endif; ?>
+
+            <?php if ($paginaAtual < $totalPaginas): ?>
+                <a href="?pagina=<?php echo $paginaAtual + 1; ?>">Próxima</a>
+            <?php endif; ?>
+        </div>
     </section>
 
     <!-- Overlay para escurecer a página de fundo -->

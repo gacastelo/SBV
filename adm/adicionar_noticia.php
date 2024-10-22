@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-// Verificação de login
-if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true) {
-    $_SESSION['redirect'] = $_SERVER['REQUEST_URI'];
-    header("Location: login.php");
+// Verifica se o usuário está logado e se tem poderes administrativos
+if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true || !isset($_SESSION['poderes']) || $_SESSION['poderes'] != 1) {
+    header("Location: ../login.php");
     exit();
 }
+
 
 // Conexão com o banco de dados reutilizando conexao.php
 require_once("../backend/conexao.php");

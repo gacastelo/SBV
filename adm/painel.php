@@ -3,25 +3,45 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true) {
-    $_SESSION['redirect'] = $_SERVER['REQUEST_URI'];
-    header("Location: login.php");
+// Verifica se o usuário está logado e se tem poderes administrativos
+if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true || !isset($_SESSION['poderes']) || $_SESSION['poderes'] != 1) {
+    header("Location: ../login.php");
     exit();
 }
 
 require_once("../backend/conexao.php");
 
+// Definir o número de notícias por página
+$noticiasPorPagina = 10;
+
+// Pega a página atual da URL, se não existir, define como 1
+$paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$offset = ($paginaAtual - 1) * $noticiasPorPagina;
+
 // Notícia sem mídia (vídeo)
-$sql = "SELECT * FROM tb_jornal WHERE midia IS NULL ORDER BY id DESC";
+$sql = "SELECT * FROM tb_jornal WHERE midia IS NULL ORDER BY id DESC LIMIT :limit OFFSET :offset";
 $stmt = $conn->prepare($sql);
+$stmt->bindValue(':limit', $noticiasPorPagina, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $noticiasSemVideos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Notícia com mídia (vídeo)
-$sql = "SELECT * FROM tb_jornal WHERE midia IS NOT NULL ORDER BY id DESC";
+$sql = "SELECT * FROM tb_jornal WHERE midia IS NOT NULL ORDER BY id DESC LIMIT :limit OFFSET :offset";
 $stmt = $conn->prepare($sql);
+$stmt->bindValue(':limit', $noticiasPorPagina, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $noticiasComVideos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Verifica o total de notícias para calcular o número de páginas
+$sqlCount = "SELECT COUNT(*) FROM tb_jornal WHERE midia IS NULL";
+$totalNoticiasSemVideos = $conn->query($sqlCount)->fetchColumn();
+$totalPaginasSemVideos = ceil($totalNoticiasSemVideos / $noticiasPorPagina);
+
+$sqlCount = "SELECT COUNT(*) FROM tb_jornal WHERE midia IS NOT NULL";
+$totalNoticiasComVideos = $conn->query($sqlCount)->fetchColumn();
+$totalPaginasComVideos = ceil($totalNoticiasComVideos / $noticiasPorPagina);
 
 $mensagem = "";
 
@@ -97,6 +117,18 @@ if (isset($_GET['id'])) { // Deletar notícia individual
             </div>
         <?php endforeach; ?>
 
+        <!-- Navegação de páginas para notícias sem vídeos -->
+        <div class="navegacao">
+            <?php if ($paginaAtual > 1): ?>
+                <a href="?pagina=<?php echo $paginaAtual - 1; ?>">Anterior</a>
+            <?php endif; ?>
+
+            <?php if ($paginaAtual < $totalPaginasSemVideos): ?>
+                <a href="?pagina=<?php echo $paginaAtual + 1; ?>">Próxima</a>
+            <?php endif; ?>
+        </div>
+
+            <h2 class="tit">Notícias com Vídeos</h2>
         <!-- Exibição de notícias com vídeos -->
         <?php foreach ($noticiasComVideos as $item): ?>
             <div class="noticia" id="video">
@@ -116,7 +148,19 @@ if (isset($_GET['id'])) { // Deletar notícia individual
                 </div>
             </div>
         <?php endforeach; ?>
+
+        <!-- Navegação de páginas para notícias com vídeos -->
+        <div class="navegacao">
+            <?php if ($paginaAtual > 1): ?>
+                <a href="?pagina=<?php echo $paginaAtual - 1; ?>">Anterior</a>
+            <?php endif; ?>
+
+            <?php if ($paginaAtual < $totalPaginasComVideos): ?>
+                <a href="?pagina=<?php echo $paginaAtual + 1; ?>">Próxima</a>
+            <?php endif; ?>
+        </div>
     </section>
+    
     <!-- Overlay para escurecer a página de fundo -->
     <div id="overlay" class="overlay"></div>
 
@@ -129,9 +173,11 @@ if (isset($_GET['id'])) { // Deletar notícia individual
             <p class="close" id="closeModal">Sair</p>
         </div>
     </div>
+    
     <footer>
         <p>&copy; 2024 Jornal Estudantil IFSP São João da Boa Vista. Todos os direitos reservados.</p>
     </footer>
+    
     <script src="../assets/js/scroll.js"></script>
 </body>
 

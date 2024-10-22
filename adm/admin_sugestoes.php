@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-// Verificação de login
-if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true) {
-    $_SESSION['redirect'] = $_SERVER['REQUEST_URI'];
-    header("Location: login.php");
+// Verifica se o usuário está logado e se tem poderes administrativos
+if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true || !isset($_SESSION['poderes']) || $_SESSION['poderes'] != 1) {
+    header("Location: ../login.php");
     exit();
 }
+
 
 try {
     // Inclua a conexão com o banco de dados
@@ -30,13 +30,34 @@ try {
         }
     }
 
-    // Selecionar todas as sugestões
-    $sql = "SELECT * FROM tb_sugestoes ORDER BY data_envio DESC";
+    // Definindo o número de sugestões por página
+    $limit = 10;
+    $offset = 0;
+
+    // Se a página for passada na URL, calcular o offset
+    if (isset($_GET['pagina']) && is_numeric($_GET['pagina'])) {
+        $pagina = (int)$_GET['pagina'];
+        $offset = ($pagina - 1) * $limit;
+    } else {
+        $pagina = 1; // Página padrão
+    }
+
+    // Selecionar todas as sugestões com limite e offset
+    $sql = "SELECT * FROM tb_sugestoes ORDER BY data_envio DESC LIMIT :limit OFFSET :offset";
     $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
 
     // Fetch de todas as sugestões do banco
     $sugestoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Contar o total de sugestões para a paginação
+    $sql_count = "SELECT COUNT(*) as total FROM tb_sugestoes";
+    $stmt_count = $conn->prepare($sql_count);
+    $stmt_count->execute();
+    $total_sugestoes = $stmt_count->fetch(PDO::FETCH_ASSOC)['total'];
+    $total_paginas = ceil($total_sugestoes / $limit);
 } catch (PDOException $e) {
     echo "Erro na consulta: " . $e->getMessage();
 }
@@ -80,7 +101,7 @@ try {
                         <th>Nome</th>
                         <th>Sugestão</th>
                         <th>Data</th>
-                        <th>Ação</th> <!-- Nova coluna para o botão de exclusão -->
+                        <th>Ação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,6 +120,21 @@ try {
                     <?php endforeach; ?>
                 </tbody>
             </table>
+
+            <!-- Navegação da página -->
+            <div class="pagination">
+                <?php if ($pagina > 1): ?>
+                    <a href="?pagina=<?php echo $pagina - 1; ?>">Anterior</a>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
+                    <a href="?pagina=<?php echo $i; ?>" class="<?php echo ($i == $pagina) ? 'active' : ''; ?>"><?php echo $i; ?></a>
+                <?php endfor; ?>
+
+                <?php if ($pagina < $total_paginas): ?>
+                    <a href="?pagina=<?php echo $pagina + 1; ?>">Próximo</a>
+                <?php endif; ?>
+            </div>
         <?php else: ?>
             <p>Nenhuma sugestão enviada ainda.</p>
         <?php endif; ?>
