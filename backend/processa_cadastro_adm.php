@@ -17,34 +17,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_check = $pdo->prepare($check_sql);
         $stmt_check->bindParam(':usuario', $usuario);
         $stmt_check->execute();
-
+    
         if ($stmt_check->rowCount() > 0) {
             // Define a mensagem de erro na sessão
             $_SESSION['erro_cadastro'] = "Usuário já existe. Escolha outro nome!";
-            header("Location: ../adm/gerenciamento.php"); // Redireciona de volta para a página de cadastro
+            header("Location: ../cadastrar.php"); // Redireciona de volta para a página de cadastro
             exit();
         } else {
             // Insere o novo usuário no banco de dados
-            $sql = "INSERT INTO usuarios (usuario, nome, senha, poderes) VALUES (:usuario, :nome, :senha, :poderes)";
+            $sql = "INSERT INTO usuarios (usuario, nome, senha, poderes, data_cadastro) VALUES (:usuario, :nome, :senha, :poderes, NOW())";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':usuario', $usuario);
             $stmt->bindParam(':nome', $usuario);
             $stmt->bindParam(':senha', $senha);
             $stmt->bindParam(':poderes', $poderes);
-
+    
             if ($stmt->execute()) {
-                header("Location: ../adm/gerenciamento.php"); // Redireciona para o gerenciador após sucesso
+                header("Location: ../login.php"); // Redireciona para o login após sucesso
                 exit();
             } else {
                 // Define uma mensagem de erro geral
                 $_SESSION['erro_cadastro'] = "Erro ao cadastrar usuário.";
-                header("Location: ../adm/gerenciamento.php");
+                header("Location: ../cadastrar.php");
                 exit();
             }
         }
     } catch (PDOException $e) {
         $_SESSION['erro_cadastro'] = "Erro: " . $e->getMessage();
-        header("Location: ../adm/gerenciamento.php");
+        header("Location: ../cadastrar.php");
         exit();
     }
 }

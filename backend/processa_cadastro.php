@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_check = $pdo->prepare($check_sql);
         $stmt_check->bindParam(':usuario', $usuario);
         $stmt_check->execute();
-
+    
         if ($stmt_check->rowCount() > 0) {
             // Define a mensagem de erro na sessão
             $_SESSION['erro_cadastro'] = "Usuário já existe. Escolha outro nome!";
@@ -25,13 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             // Insere o novo usuário no banco de dados
-            $sql = "INSERT INTO usuarios (usuario, nome, senha, poderes) VALUES (:usuario, :nome, :senha, :poderes)";
+            $sql = "INSERT INTO usuarios (usuario, nome, senha, poderes, data_cadastro) VALUES (:usuario, :nome, :senha, :poderes, NOW())";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':usuario', $usuario);
             $stmt->bindParam(':nome', $usuario);
             $stmt->bindParam(':senha', $senha);
             $stmt->bindParam(':poderes', $poderes);
-
+    
             if ($stmt->execute()) {
                 header("Location: ../login.php"); // Redireciona para o login após sucesso
                 exit();

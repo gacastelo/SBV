@@ -45,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $_SESSION['usuario'] = $row['usuario'];
 
+            $_SESSION['data_cadastro'] = $row['data_cadastro'];
+
             // Verifica o valor da coluna 'poderes'
             if ($row['poderes'] == 0) {
                 // Usuário comum, redireciona para index.php

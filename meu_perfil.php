@@ -16,6 +16,9 @@ $mensagem_erro_nome = "";
 $mensagem_sucesso_senha = "";
 $mensagem_erro_senha = "";
 
+    $data_cadastro = $_SESSION['data_cadastro']; // Obtém a data de cadastro
+    $data_formatada = date('d/m/Y', strtotime($data_cadastro)); // Formata a data para o formato desejado
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_usuario = $_SESSION['id_usuario']; // Obtém o ID do usuário da sessão
 
@@ -118,6 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2 class="tit-info">Informações do Usuário</h2>
             <p><strong>Usuário:</strong> <?php echo htmlspecialchars($_SESSION['usuario']); ?></p>
             <p><strong>Nome:</strong> <?php echo htmlspecialchars($_SESSION['nome']); ?></p>
+            <p><strong>Data de Cadastro:</strong> <?php echo $data_formatada; ?></p>
         </div>
 
         <div class="mudar">
