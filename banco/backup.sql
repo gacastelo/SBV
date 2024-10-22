@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `tb_eventos` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Copiando dados para a tabela db_jornal.tb_eventos: ~5 rows (aproximadamente)
+-- Copiando dados para a tabela db_jornal.tb_eventos: ~0 rows (aproximadamente)
 
 -- Copiando estrutura para tabela db_jornal.tb_jornal
 CREATE TABLE IF NOT EXISTS `tb_jornal` (
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `tb_jornal` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Copiando dados para a tabela db_jornal.tb_jornal: ~18 rows (aproximadamente)
+-- Copiando dados para a tabela db_jornal.tb_jornal: ~24 rows (aproximadamente)
 INSERT INTO `tb_jornal` (`id`, `titulo`, `desc`, `img`, `data_cad`, `conteudo`, `midia`, `video_duration`) VALUES
 	(31, 'Nova vacina contra a gripe é aprovada', 'A vacina foi aprovada após testes rigorosos.', '', '2024-09-23', 'Uma nova vacina contra a gripe foi aprovada pelas autoridades de saúde após uma série de testes rigorosos que demonstraram sua eficácia e segurança. Espera-se que ela reduza significativamente os casos de gripe nesta temporada.', NULL, ''),
 	(32, 'Mudanças climáticas afetam a agricultura', 'Estudo revela impactos severos nas colheitas.', '', '2024-09-23', 'Um novo estudo revela que as mudanças climáticas estão afetando gravemente a agricultura, resultando em colheitas menores e maior insegurança alimentar em diversas regiões do mundo. Os agricultores estão sendo incentivados a adotar práticas mais sustentáveis.', NULL, ''),
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `tb_sugestoes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Copiando dados para a tabela db_jornal.tb_sugestoes: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela db_jornal.tb_sugestoes: ~1 rows (aproximadamente)
 INSERT INTO `tb_sugestoes` (`id`, `nome`, `sugestao`, `data_envio`) VALUES
 	(6, 'Joana D\'arc', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae elit purus. Nam laoreet, lorem at dignissim aliquam, felis orci mollis sapien, vitae pulvinar ligula diam a risus. Praesent suscipit ante et elit tempus condimentum. Aenean ac nunc id tellus interdum viverra non eget augue. Sed efficitur, felis nec aliquam euismod, urna libero mollis ipsum, ac lobortis velit nibh a mi. Nullam eu rhoncus nibh. Maecenas a tincidunt justo. Morbi massa orci, varius nec quam eget, consequat vehicula dui. Phasellus nibh quam, finibus nec luctus eu, posuere sit amet massa. Mauris sed pulvinar velit. Integer ultricies eu urna nec posuere. Sed gravida justo et turpis placerat auctor. Maecenas ultrices elit eget nibh facilisis, ut luctus sem ornare. Etiam ipsum dui, dictum eu tellus non, egestas gravida lectus.\r\n\r\nEtiam augue nisl, dictum a iaculis sit amet, rutrum accumsan diam. Sed mauris lacus, varius vel volutpat a, tempor vel turpis. Ut et libero pellentesque turpis tempus bibendum non in eros. Phasellus rhoncus ut eros vel sollicitudin. Maecenas sit amet tempor sapien, eget scelerisque magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque dapibus rhoncus tellus id aliquet. Duis id dolor ultricies dolor vestibulum facilisis ac nec justo.', '2024-09-30 20:07:19');
 
@@ -119,17 +119,19 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `nome` varchar(50) COLLATE utf8mb4_bin NOT NULL,
   `senha` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT 'Armazena a senha criptografada',
   `poderes` tinyint(1) NOT NULL COMMENT '''1 para administrador, 0 para usuário comum''',
+  `data_cadastro` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Copiando dados para a tabela db_jornal.usuarios: ~6 rows (aproximadamente)
-INSERT INTO `usuarios` (`id`, `usuario`, `nome`, `senha`, `poderes`) VALUES
-	(2, 'admin', 'Gabriel, O Devorador de Deuses', '$2y$10$g61reboGdpT/ZzDB4mxUJ.0B.32LlVg.dpf2eBKoq42.p.bZtEWsS', 1),
-	(4, 'test', 'aaa', '$2y$10$pzjO/sErXH0lIAVdshxBReC5Nmf65k7bLLyIXOUeA33SgY1lMH2bK', 0),
-	(6, 'Pinto Pintópolis 2: A vingança', 'Pinto Pintópolis 2: A vingança', '$2y$10$mj9JB1x8SCe7SOJ6SfjZmOSjZqhgS61w8v78e8EPbaywszMAIhpmq', 0),
-	(8, 'blackine4', 'blackine4', '$2y$10$Li5YvP3NDB02sC55GQILKOUuV9Vgap2GmujUmlQlgi9Wdo3gZ8vna', 0),
-	(11, 'blackine', 'blackine', '$2y$10$iFeNPFMapSXaMkihBBWjfuaDTM1hsLUs7ffullVNnEFIbXdwnQiim', 0),
-	(12, 'aa', 'aa', '$2y$10$DTUORImKqpZkkjph1MNq1.orLPjPCRLgbTcbMJ.LbBrFr4aXd9OZK', 1);
+-- Copiando dados para a tabela db_jornal.usuarios: ~7 rows (aproximadamente)
+INSERT INTO `usuarios` (`id`, `usuario`, `nome`, `senha`, `poderes`, `data_cadastro`) VALUES
+	(2, 'admin', 'Gabriel, O Devorador de Deuses', '$2y$10$g61reboGdpT/ZzDB4mxUJ.0B.32LlVg.dpf2eBKoq42.p.bZtEWsS', 1, '2024-10-22'),
+	(4, 'test', 'aaa', '$2y$10$pzjO/sErXH0lIAVdshxBReC5Nmf65k7bLLyIXOUeA33SgY1lMH2bK', 0, '2024-10-22'),
+	(8, 'blackine4', 'blackine4', '$2y$10$Li5YvP3NDB02sC55GQILKOUuV9Vgap2GmujUmlQlgi9Wdo3gZ8vna', 0, '2024-10-22'),
+	(11, 'blackine', 'blackine', '$2y$10$iFeNPFMapSXaMkihBBWjfuaDTM1hsLUs7ffullVNnEFIbXdwnQiim', 0, '2024-10-22'),
+	(12, 'aa', 'aa', '$2y$10$DTUORImKqpZkkjph1MNq1.orLPjPCRLgbTcbMJ.LbBrFr4aXd9OZK', 1, '2024-10-22'),
+	(16, 'Haugxx', 'Henrique Firmino', '$2y$10$aHcQSLcoAtGXzAnAWv7uUOXkWbahxnsn5XQQnUnzYUZbBlMjfGEU.', 0, '2024-10-22'),
+	(17, 'ab', 'ab', '$2y$10$Quu9Lk7t8M1M2xyV2IkajOx6UhARHdgjxPxjLS6Kq4dWTH4s.VGEi', 0, '2024-10-22');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
