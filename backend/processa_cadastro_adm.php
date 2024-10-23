@@ -33,18 +33,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(':poderes', $poderes);
     
             if ($stmt->execute()) {
-                header("Location: ../login.php"); // Redireciona para o login após sucesso
+                header("Location: ../adm/gerenciamento.php"); // Redireciona para o login após sucesso
+                $_SESSION['sucesso_cadastro'] = "Cadastrado com sucesso!";
                 exit();
             } else {
                 // Define uma mensagem de erro geral
                 $_SESSION['erro_cadastro'] = "Erro ao cadastrar usuário.";
-                header("Location: ../cadastrar.php");
+                header("Location:  ../adm/gerenciamento.php");
                 exit();
             }
         }
     } catch (PDOException $e) {
         $_SESSION['erro_cadastro'] = "Erro: " . $e->getMessage();
-        header("Location: ../cadastrar.php");
+        header("Location:  ../adm/gerenciamento.php");
         exit();
     }
 }

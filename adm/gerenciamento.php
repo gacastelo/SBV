@@ -87,8 +87,12 @@ try {
         <?php
             // Exibe a mensagem de erro, se houver
             if (isset($_SESSION['erro_cadastro'])) {
-                echo '<p style="color: red; text-align: center;">' . $_SESSION['erro_cadastro'] . '</p>';
+                echo '<p class="falha">' . $_SESSION['erro_cadastro'] . '</p>';
                 unset($_SESSION['erro_cadastro']); // Remove a mensagem de erro da sessão
+            }
+            if (isset($_SESSION['sucesso_cadastro'])) {
+                echo '<p class="sucesso">' . $_SESSION['sucesso_cadastro'] . '</p>';
+                unset($_SESSION['sucesso_cadastro']); // Remove a mensagem de sucesso da sessão
             }
             ?> <br>
             <h2 class="tit">Adicionar Usuário Administrador</h2>
