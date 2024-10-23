@@ -7,11 +7,30 @@ if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true || !isset($_SESS
     exit();
 }
 
-
 // Conexão com o banco de dados reutilizando conexao.php
 require_once("../backend/conexao.php");
 
 $mensagem = "";
+
+// Função para comprimir imagem
+function compressImage($source, $destination, $quality) {
+    $info = getimagesize($source);
+
+    if ($info['mime'] == 'image/jpeg') {
+        $image = imagecreatefromjpeg($source);
+    } elseif ($info['mime'] == 'image/png') {
+        $image = imagecreatefrompng($source);
+    } elseif ($info['mime'] == 'image/gif') {
+        $image = imagecreatefromgif($source);
+    } else {
+        return false; // Formato não suportado
+    }
+
+    // Salvar imagem comprimida
+    imagejpeg($image, $destination, $quality);
+    imagedestroy($image);
+    return true;
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo = $_POST['titulo'] ?? NULL;
@@ -21,10 +40,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conteudo = !empty($_POST['conteudo']) ? $_POST['conteudo'] : NULL;
     $data_cad = $_POST['data_cad'] ?? NULL;
 
-    // Diretório de upload
-    $target_dir = "./uploads/img/";
+    // Diretório de upload (usado apenas para salvar a imagem)
+    $target_dir = "../uploads/img/";
     $imageFileType = strtolower(pathinfo($_FILES["img"]["name"], PATHINFO_EXTENSION));
-    $target_file = $target_dir . uniqid() . "." . $imageFileType;
+    $unique_filename = uniqid() . "." . $imageFileType; 
+    $target_file = $target_dir . $unique_filename;
+
+    // Caminho público (relativo à raiz do site) para ser salvo no banco de dados
+    $public_path = "./uploads/img/" . $unique_filename;
 
     // Verifica se o diretório existe
     if (!is_dir($target_dir)) {
@@ -36,14 +59,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $check = getimagesize($_FILES["img"]["tmp_name"]);
         if ($check !== false) {
             if (in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
+                // Movendo o arquivo temporário
                 if (move_uploaded_file($_FILES['img']['tmp_name'], $target_file)) {
-                    // Inserir os dados da notícia no banco de dados
+                    // Comprimir a imagem após o upload
+                    compressImage($target_file, $target_file, 75); // 75% de qualidade
+
+                    // Inserir os dados da notícia no banco de dados, incluindo o caminho público da imagem
                     $sql = "INSERT INTO tb_jornal (titulo, `desc`, img, data_cad, midia, video_duration, conteudo) 
                             VALUES (:titulo, :desc, :img, :data_cad, :midia, :video_duration, :conteudo)";
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':titulo', $titulo);
                     $stmt->bindParam(':desc', $desc);
-                    $stmt->bindParam(':img', $target_file); // Caminho da imagem no servidor
+                    $stmt->bindParam(':img', $public_path); // Caminho da imagem público
                     $stmt->bindParam(':data_cad', $data_cad);
                     $stmt->bindParam(':midia', $midia);
                     $stmt->bindParam(':video_duration', $video_duration);
@@ -106,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <li><a href="admin_sugestoes.php">Sugestões</a></li>
                     <li><a href="adicionar_jornal.php">Jornal</a></li>
                     <li><a href="gerenciamento.php">Gerenciamento</a></li>
-                    <li><a href="../logout.php">Logout</a></li>
+                    <li><a href='../backend/logout.php'>Logout</a></li>
                 </ul>
             </nav>
         </div>

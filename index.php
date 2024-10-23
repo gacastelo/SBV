@@ -54,7 +54,7 @@ try {
                     <?php endif; ?>
                     <?php if (isset($_SESSION['logado']) && $_SESSION['logado'] == true): ?>
                         <li><a href='meu_perfil.php'>Meu Perfil</a></li>
-                        <li><a href='logout.php'>Logout</a></li>
+                        <li><a href='./backend/logout.php'>Logout</a></li>
                     <?php else: ?>
                         <li><a href='login.php'>Faça seu Login</a></li>
                     <?php endif; ?>

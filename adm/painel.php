@@ -83,7 +83,7 @@ if (isset($_GET['id'])) { // Deletar notícia individual
                     <li><a href="admin_sugestoes.php">Sugestões</a></li>
                     <li><a href="adicionar_jornal.php">Jornal</a></li>
                     <li><a href="gerenciamento.php">Gerenciamento</a></li>
-                    <li><a href="../logout.php">Logout</a></li>
+                    <li><a href='../backend/logout.php'>Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -128,7 +128,7 @@ if (isset($_GET['id'])) { // Deletar notícia individual
             <?php endif; ?>
         </div>
 
-            <h2 class="tit">Notícias com Vídeos</h2>
+        <h2 class="tit">Notícias com Vídeos</h2>
         <!-- Exibição de notícias com vídeos -->
         <?php foreach ($noticiasComVideos as $item): ?>
             <div class="noticia" id="video">
@@ -160,7 +160,7 @@ if (isset($_GET['id'])) { // Deletar notícia individual
             <?php endif; ?>
         </div>
     </section>
-    
+
     <!-- Overlay para escurecer a página de fundo -->
     <div id="overlay" class="overlay"></div>
 
@@ -173,12 +173,13 @@ if (isset($_GET['id'])) { // Deletar notícia individual
             <p class="close" id="closeModal">Sair</p>
         </div>
     </div>
-    
+
     <footer>
         <p>&copy; 2024 Jornal Estudantil IFSP São João da Boa Vista. Todos os direitos reservados.</p>
     </footer>
-    
+
     <script src="../assets/js/scroll.js"></script>
+    <script src="../assets/js/delete_news.js"></script>
 </body>
 
 </html>

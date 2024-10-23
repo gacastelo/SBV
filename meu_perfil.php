@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ?>
                     <?php
                     if (isset($_SESSION['logado']) && $_SESSION['logado'] == true) {
-                        echo "<li><a href='logout.php'>Logout</a></li>";
+                        echo "<li><a href='./backend/logout.php'>Logout</a></li>";
                     } else {
                         echo "<li><a href='login.php'>Faça seu Login</a></li>";
                     }

@@ -8,7 +8,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true || !isset($_SESS
 }
 
 // Inclui o arquivo de conexão com o banco de dados
-include '../backend/conexao.php';
+include 'conexao.php';
 
 // Verifica se o ID do usuário foi passado via GET
 if (isset($_GET['id'])) {
@@ -22,7 +22,7 @@ if (isset($_GET['id'])) {
         
         // Executa a query
         if ($stmt->execute()) {
-            header("Location: gerenciamento.php"); // Redireciona de volta para a lista de usuários
+            header("Location: ../adm/gerenciamento.php"); // Redireciona de volta para a lista de usuários
             exit();
         } else {
             echo "Erro ao tentar excluir o usuário.";

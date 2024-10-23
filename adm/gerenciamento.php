@@ -46,7 +46,7 @@ try {
                     <li><a href="admin_sugestoes.php">Sugestões</a></li>
                     <li><a href="adicionar_jornal.php">Jornal</a></li>
                     <li><a href="gerenciamento.php" class="active">Gerenciamento</a></li>
-                    <li><a href="../logout.php">Logout</a></li>
+                    <li><a href='../backend/logout.php'>Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -73,7 +73,7 @@ try {
                             <td><?php echo htmlspecialchars($usuario['nome']); ?></td>
                             <td>
                                 <!-- Aqui podem ser adicionadas ações como editar ou excluir o usuário -->
-                                <a href="excluir_usuario.php?id=<?php echo $usuario['id']; ?>" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</a>
+                                <a href="../backend/excluir_usuario.php?id=<?php echo $usuario['id']; ?>" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

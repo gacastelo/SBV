@@ -165,16 +165,18 @@ $conn->close();
 </head>
 
 <body>
-    <header>
+<header id="header">
         <div class="container">
-            <h1>Área Restrita - Jornal Federal</h1>
+            <img src="../assets/img/logojornal.png" alt="" height="80px">
             <nav>
                 <ul>
-                    <li><a href="../index.php">Site Principal</a></li>
-                    <li><a href="adicionar_noticia.php">Adicionar Notícias</a></li>
-                    <li><a href="admin_sugestoes.php">Ver Sugestões</a></li>
-                    <li><a href="admin_eventos.php">Editar Eventos</a></li>
-                    <li><a href="../logout.php">Logout</a></li>
+                    <li><a href="../index.php">Visualizar</a></li>
+                    <li><a href="painel.php" class="active">Notícias</a></li>
+                    <li><a href="admin_eventos.php">Eventos</a></li>
+                    <li><a href="admin_sugestoes.php">Sugestões</a></li>
+                    <li><a href="adicionar_jornal.php">Jornal</a></li>
+                    <li><a href="gerenciamento.php">Gerenciamento</a></li>
+                    <li><a href='../backend/logout.php'>Logout</a></li>
                 </ul>
             </nav>
         </div>
