@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 
 -- Copiando dados para a tabela db_jornal.usuarios: ~6 rows (aproximadamente)
 INSERT INTO `usuarios` (`id`, `usuario`, `nome`, `senha`, `poderes`, `data_cadastro`) VALUES
-	(2, 'admin', 'Gabriel, O Devorador de Deuses', '$2y$10$g61reboGdpT/ZzDB4mxUJ.0B.32LlVg.dpf2eBKoq42.p.bZtEWsS', 1, '2024-10-22'),
+	(2, 'admin', 'Gabriel', '$2y$10$g61reboGdpT/ZzDB4mxUJ.0B.32LlVg.dpf2eBKoq42.p.bZtEWsS', 1, '2024-10-22'),
 	(4, 'test', 'aaa', '$2y$10$pzjO/sErXH0lIAVdshxBReC5Nmf65k7bLLyIXOUeA33SgY1lMH2bK', 0, '2024-10-22'),
 	(8, 'blackine4', 'blackine4', '$2y$10$Li5YvP3NDB02sC55GQILKOUuV9Vgap2GmujUmlQlgi9Wdo3gZ8vna', 0, '2024-10-22'),
 	(11, 'blackine', 'blackine', '$2y$10$iFeNPFMapSXaMkihBBWjfuaDTM1hsLUs7ffullVNnEFIbXdwnQiim', 0, '2024-10-22'),
