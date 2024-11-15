@@ -65,17 +65,22 @@ try {
         <h3 class="sobretitle">Equipe</h3>
         <ul>
             <li><strong>Chefe de Redação:</strong> Thais</li>
-            <li><strong>Repórteres:</strong> Luca</li>
-            <li><strong>Editores:</strong> Victor</li>
-            <li><strong>Diretor de imagens:</strong> Rafa</li>
-            <li><strong>Colunistas:</strong> Sarah</li>
+            <li><strong>Editor Chefe:</strong> Victor</li>
+            <li><strong>Diretor(a) de Imagens:</strong> Rafaela</li>
+            <li><strong>Pauteiros:</strong> Thais, Hellen, Victor</li>
+            <li><strong>Repórteres:</strong> Thais, Victor, Sarah</li>
+            <li><strong>Colunistas:</strong> Sarah, Hellen</li>
+            <li><strong>Editores:</strong> Victor, Cinthia</li>
+            <li><strong>Produtores de Mídia:</strong> Rafaela, Cinthia</li>
             <li><strong>Webmaster:</strong> Gabriel C.</li>
         </ul>
+    
+
 
         <h3 class="sobretitle">Contato</h3>
-        <p>Para colaborações ou dúvidas, entre em contato conosco pelo e-mail: <a id="email" href="mailto:jornalfederal.ifsp.sbv@gmail.com">jornalfederal.ifsp.sbv@gmail.com</a></p><br><br>
+        <p>Para colaborações ou dúvidas, entre em contato conosco pelo e-mail: <a id="email" href="mailto:jornalfederal.ifsp.sbv@gmail.com">jornalfederal.ifsp.sbv@gmail.com</a> ou pelo nosso <a href="sugestoes.php">Espaço de Sugestões</a></p><br><br>
         <div class="center"><a href="index.html" class="button">Voltar para Início</a></div>
-    </section>
+    </section>  
     <footer>
         <div class="container">
             <p>&copy; 2024 Jornal Estudantil IFSP São João da Boa Vista. Todos os direitos reservados.</p>
