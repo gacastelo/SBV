@@ -81,7 +81,7 @@ if (isset($_GET['id'])) { // Deletar notícia individual
                     <li><a href="painel.php" class="active">Notícias</a></li>
                     <li><a href="admin_eventos.php">Eventos</a></li>
                     <li><a href="admin_sugestoes.php">Sugestões</a></li>
-                    <li><a href="adicionar_jornal.php">Jornal</a></li>
+                    <li><a href="adicionar_jornal.php">PDF's</a></li>
                     <li><a href="gerenciamento.php">Gerenciamento</a></li>
                     <li><a href='../backend/logout.php'>Logout</a></li>
                 </ul>

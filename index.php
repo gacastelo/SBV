@@ -33,8 +33,8 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jornal Estudantil IFSP SBV</title>
-    <link rel="stylesheet" href="assets/css/pre-style.css">
-    <script src="assets/js/modal.js" defer></script> <!-- Incluindo o arquivo JS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/modal.js" defer></script>
 </head>
 
 <body>
@@ -74,14 +74,14 @@ try {
                 <p class="data"><?php echo date('d/m/Y', strtotime($item['data_cad'])); ?></p>
             </div>
         <?php endforeach; ?>
-        <?php if ($noticiaComVideo): ?>
+
+        <?php if (!empty($noticiaComVideo)): ?>
             <div class="noticia" id="video">
                 <div class="news-video">
-                    <img src="<?php echo $noticiaComVideo['img'] ?: 'assets/img/placeholder.png'; ?>"
-                        alt="Imagem do vídeo" class="thumbnail"
-                        onclick="abrirModal('<?php echo $noticiaComVideo['midia']; ?>', '<?php echo htmlspecialchars($noticiaComVideo['titulo']); ?>', '<?php echo htmlspecialchars($noticiaComVideo['conteudo']); ?>')"
-                        onerror="this.src='assets/img/jorge.png';">
-                    <span class="video-duration"><?php echo htmlspecialchars($noticiaComVideo['video_duration']); ?></span>
+                    <img src="<?php echo $noticiaComVideo['img'] ?: 'assets/img/placeholder.png'; ?>" alt="Imagem do vídeo" class="thumbnail"
+                        onclick="abrirModal('<?php echo $noticiaComVideo['midia']; ?>',
+                                            '<?php echo htmlspecialchars($noticiaComVideo['titulo']); ?>',
+                                            `<?php echo htmlspecialchars($noticiaComVideo['conteudo']); ?>`)">
                 </div>
                 <div class="news-content">
                     <h2><?php echo htmlspecialchars($noticiaComVideo['titulo']); ?></h2>
@@ -93,12 +93,15 @@ try {
             <p>Nenhuma notícia com vídeo disponível no momento.</p>
         <?php endif; ?>
 
-        <!-- Modal para exibição do vídeo -->
+        <div id="overlay" class="overlay"></div>
+
         <div id="videoModal" class="modal">
             <div class="modal-content">
                 <div class="closex" id="closeModal">x</div>
                 <h2 class="news-video-title" id="modalTitulo"></h2>
-                <div class="video-container"><iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-container">
+                    <iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe>
+                </div>
                 <p id="modalConteudo"></p>
                 <p class="close" id="closeModal">Sair</p>
             </div>
@@ -133,4 +136,4 @@ try {
     <script src="assets/js/scroll.js"></script>
 </body>
 
-</html> 
+</html>
